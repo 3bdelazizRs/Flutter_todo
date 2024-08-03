@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:test_todos/data/model/todomodel.dart';
+import 'package:test_todos/utils/string.dart';
 import 'package:test_todos/view/screens/add_todo.dart';
 
 import '../../data/db/shared-preferences.dart';
@@ -77,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 16.h,
                   ),
-                  Text('Today Task',
+                  Text(homeTitle,
                       style: GoogleFonts.jost(
                           color: textColor,
                           fontSize: 18.sp,
@@ -93,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10.r),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.grey.withOpacity(0.5),

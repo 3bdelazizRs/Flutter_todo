@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:test_todos/utils/colors.dart';
+import 'package:test_todos/utils/string.dart';
 
 import '../../data/model/todomodel.dart';
 
@@ -24,7 +25,7 @@ class _AddTodoState extends State<AddTodo> {
     super.dispose();
   }
 
-   void _submitForm() {
+  void _submitForm() {
     if (_formKey.currentState!.validate()) {
       final todo = TodoModel(
         id: DateTime.now().millisecondsSinceEpoch,
@@ -50,7 +51,7 @@ class _AddTodoState extends State<AddTodo> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Add New\nTask',
+                Text(addpageTitle,
                     style: GoogleFonts.poppins(
                         color: Colors.black,
                         fontSize: 50.sp,
@@ -60,7 +61,7 @@ class _AddTodoState extends State<AddTodo> {
                       color: Colors.black,
                       fontSize: 12.sp,
                     )),
-                SizedBox(height: 10.0),
+                SizedBox(height: 10.0.h),
                 TextFormField(
                   controller: _titleController,
                   decoration: InputDecoration(
@@ -68,15 +69,15 @@ class _AddTodoState extends State<AddTodo> {
                     fillColor: Colors.grey.withOpacity(0.1),
                     hintText: "Enter task title",
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: const BorderSide(
                         width: 0,
                         style: BorderStyle.none,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
+                      borderRadius: BorderRadius.circular(8.r),
+                      borderSide: const BorderSide(
                         width: 0,
                         style: BorderStyle.none,
                       ),
@@ -84,18 +85,18 @@ class _AddTodoState extends State<AddTodo> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a title';
+                      return erTitleValidation;
                     }
                     return null;
                   },
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 16.0.h),
                 Text('Description',
                     style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontSize: 12.sp,
                     )),
-                SizedBox(height: 10.0),
+                SizedBox(height: 10.0.h),
                 TextFormField(
                   controller: _descriptionController,
                   decoration: InputDecoration(
@@ -104,14 +105,14 @@ class _AddTodoState extends State<AddTodo> {
                     fillColor: Colors.grey.withOpacity(0.1),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         width: 0,
                         style: BorderStyle.none,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         width: 0,
                         style: BorderStyle.none,
                       ),
@@ -120,12 +121,12 @@ class _AddTodoState extends State<AddTodo> {
                   maxLines: 4,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a description';
+                      return erDescriptionValidation;
                     }
                     return null;
                   },
                 ),
-                SizedBox(height: 16.0),
+                SizedBox(height: 16.0.h),
                 GestureDetector(
                   onTap: () {
                     _submitForm();
