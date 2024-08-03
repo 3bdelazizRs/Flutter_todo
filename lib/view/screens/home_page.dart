@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:test_todos/data/model/todomodel.dart';
 import 'package:test_todos/utils/string.dart';
 import 'package:test_todos/view/screens/add_todo.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../data/db/shared-preferences.dart';
 import '../../utils/colors.dart';
@@ -28,12 +29,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   _loadTodos() async {
-    String? todoListString = await LocalDb.getTodos;
-    if (todoListString != null) {
-      List<dynamic> todoListJson = json.decode(todoListString);
-      setState(() {
-        _todos = todoListJson.map((json) => TodoModel.fromJson(json)).toList();
-      });
+    try {
+      String? todoListString = await LocalDb.getTodos;
+      if (todoListString != null) {
+        List<dynamic> todoListJson = json.decode(todoListString);
+        setState(() {
+          _todos =
+              todoListJson.map((json) => TodoModel.fromJson(json)).toList();
+        });
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "oops, somthing went wrong, Please try again later ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 15.0);
     }
   }
 
@@ -42,16 +55,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   _addTodo() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const AddTodo()),
-    );
+    try {
+      final result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const AddTodo()),
+      );
 
-    if (result != null) {
-      setState(() {
-        _todos.add(result);
-        _saveTodos();
-      });
+      if (result != null) {
+        setState(() {
+          _todos.add(result);
+          _saveTodos();
+        });
+      }
+    } catch (e) {
+      Fluttertoast.showToast(
+          msg: "oops, somthing went wrong, Please try again later ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 15.0);
     }
   }
 
@@ -73,6 +97,7 @@ class _HomePageState extends State<HomePage> {
           _todos.isEmpty
               ? Center(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         "Press",
@@ -81,8 +106,14 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold,
                             color: hintTextColor),
                       ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
                       SvgPicture.asset("assets/imgs/add_btn.svg",
                           width: 15.w, height: 15.h),
+                      SizedBox(
+                        width: 5.w,
+                      ),
                       Text(
                         "To add a new task",
                         style: GoogleFonts.ptSans(
