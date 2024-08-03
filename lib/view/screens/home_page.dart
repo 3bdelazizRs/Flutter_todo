@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:test_todos/data/model/todomodel.dart';
 import 'package:test_todos/utils/string.dart';
@@ -69,81 +70,106 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: backgroundColor,
       body: Stack(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 16.h,
+          _todos.isEmpty
+              ? Center(
+                  child: Row(
+                    children: [
+                      Text(
+                        "Press",
+                        style: GoogleFonts.ptSans(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                            color: hintTextColor),
+                      ),
+                      SvgPicture.asset("assets/imgs/add_btn.svg",
+                          width: 15.w, height: 15.h),
+                      Text(
+                        "To add a new task",
+                        style: GoogleFonts.ptSans(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                            color: hintTextColor),
+                      ),
+                    ],
                   ),
-                  Text(homeTitle,
-                      style: GoogleFonts.jost(
-                          color: textColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500)),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: _todos.length,
-                        itemBuilder: (context, index) {
-                          final todo = _todos[index];
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 10.h),
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.r),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 0,
-                                    blurRadius: 2.0,
-                                    offset: const Offset(0, 4),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text(homeTitle,
+                            style: GoogleFonts.jost(
+                                color: textColor,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500)),
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: _todos.length,
+                              itemBuilder: (context, index) {
+                                final todo = _todos[index];
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 10.h),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 0,
+                                          blurRadius: 2.0,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          flex: 2,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(todo.title,
+                                                    style: GoogleFonts.jost(
+                                                        color: textColor,
+                                                        fontSize: 18.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600)),
+                                                Text(todo.description,
+                                                    style: GoogleFonts.jost(
+                                                        color: Colors.grey,
+                                                        fontSize: 15.sp,
+                                                        fontWeight:
+                                                            FontWeight.w400))
+                                              ]),
+                                        ),
+                                        Checkbox(
+                                            value: todo.completed,
+                                            onChanged: (val) {
+                                              _toggleTodoCompletion(todo);
+                                            })
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(todo.title,
-                                              style: GoogleFonts.jost(
-                                                  color: textColor,
-                                                  fontSize: 18.sp,
-                                                  fontWeight: FontWeight.w600)),
-                                          Text(todo.description,
-                                              style: GoogleFonts.jost(
-                                                  color: Colors.grey,
-                                                  fontSize: 15.sp,
-                                                  fontWeight: FontWeight.w400))
-                                        ]),
-                                  ),
-                                  Checkbox(
-                                      value: todo.completed,
-                                      onChanged: (val) {
-                                        _toggleTodoCompletion(todo);
-                                      })
-                                ],
-                              ),
-                            ),
-                          );
+                                );
 
-                          //  todo_card(
-                          //   todo: todo,
-                          //   toggleTodoCompletion: _toggleTodoCompletion(todo),
-                          // );
-                        }),
-                  )
-                ],
-              ),
-            ),
-          ),
+                                //  todo_card(
+                                //   todo: todo,
+                                //   toggleTodoCompletion: _toggleTodoCompletion(todo),
+                                // );
+                              }),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
